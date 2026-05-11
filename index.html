@@ -3,201 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal MPU3212 | GitHub Edition</title>
+    <title>Portal MPU3212</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #e0e5ec;
-            --accent: #ff3e00;
-        }
-
-        body { 
-            font-family: 'Outfit', sans-serif; 
-            background-color: var(--bg);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        /* Neubrutalism + Glassmorphism */
-        .main-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            border: 4px solid #000;
-            box-shadow: 12px 12px 0px #000;
-            width: 100%;
-            max-width: 450px;
-            padding: 2.5rem;
-            border-radius: 4px;
-        }
-
-        /* Neumorphism Input */
-        .neu-input {
-            background: #e0e5ec;
-            border: 2px solid #000;
-            box-shadow: inset 5px 5px 10px #b8bcc2, inset -5px -5px 10px #ffffff;
-            padding: 15px;
-            width: 100%;
-            font-weight: bold;
-            outline: none;
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
-        }
-
-        /* Brutalist Button */
-        .btn-action {
-            background: #000;
-            color: #fff;
-            padding: 15px;
-            width: 100%;
-            font-weight: 900;
-            text-transform: uppercase;
-            border: 2px solid #000;
-            box-shadow: 6px 6px 0px var(--accent);
-            cursor: pointer;
-            transition: 0.1s;
-        }
-
-        .btn-action:active {
-            transform: translate(4px, 4px);
-            box-shadow: 0px 0px 0px var(--accent);
-        }
-
-        .loader {
-            width: 24px; height: 24px;
-            border: 4px solid #FFF; border-bottom-color: transparent;
-            border-radius: 50%; display: inline-block;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg) } 100% { transform: rotate(360deg) } }
-        
+        body { font-family: 'Outfit', sans-serif; background: #e0e5ec; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .glass-neu { background: rgba(224, 229, 236, 0.9); backdrop-filter: blur(10px); border-radius: 30px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 20px 20px 60px #bec8d4, -20px -20px 60px #ffffff; width: 100%; max-width: 480px; padding: 30px; }
+        .neu-input { width: 100%; background: #e0e5ec; border: none; border-radius: 12px; padding: 12px; box-shadow: inset 4px 4px 8px #b8bcc2, inset -4px -4px 8px #ffffff; outline: none; margin-bottom: 15px; font-weight: bold; }
+        .btn-neu { width: 100%; padding: 15px; border-radius: 15px; background: #e0e5ec; box-shadow: 6px 6px 12px #b8bcc2, -6px -6px 12px #ffffff; font-weight: 900; color: #444; transition: 0.2s; }
+        .btn-neu:active { box-shadow: inset 4px 4px 8px #b8bcc2, inset -4px -4px 8px #ffffff; transform: scale(0.98); }
+        .profile-circle { width: 120px; height: 120px; border-radius: 50%; background: #e0e5ec; box-shadow: 8px 8px 16px #b8bcc2, -8px -8px 16px #ffffff; margin: 0 auto 20px; position: relative; overflow: hidden; border: 4px solid #e0e5ec; }
         .hidden { display: none !important; }
-        .tab-active { border-bottom: 6px solid #000; color: #000; font-weight: 900; }
     </style>
 </head>
 <body>
 
-    <div id="login-container" class="main-card">
-        <h1 class="text-5xl font-black uppercase tracking-tighter leading-none mb-8">MPU<br>3212</h1>
-        
-        <div class="flex gap-4 mb-8">
-            <button onclick="setTab('student')" id="tab-student" class="flex-1 pb-2 text-sm uppercase tab-active">Pelajar</button>
-            <button onclick="setTab('staff')" id="tab-staff" class="flex-1 pb-2 text-sm uppercase text-gray-400">Pensyarah</button>
-        </div>
-
-        <div id="form-student">
-            <label class="block text-[10px] font-black uppercase mb-1">Carian No. KP</label>
-            <input type="text" id="kp-student" class="neu-input" placeholder="010409020015">
-            <button onclick="loginStudent()" id="btn-std" class="btn-action">Masuk Portal <i class="fas fa-bolt ml-2"></i></button>
-        </div>
-
-        <div id="form-staff" class="hidden">
-            <input type="text" id="email-staff" class="neu-input" placeholder="Emel Pensyarah">
-            <input type="password" id="pass-staff" class="neu-input" placeholder="Kata Laluan">
-            <button onclick="loginStaff()" id="btn-stf" class="btn-action !bg-indigo-600">Log Masuk</button>
-        </div>
+    <div id="login-screen" class="glass-neu text-center">
+        <h1 class="text-3xl font-black mb-8 tracking-tighter">PORTAL PELAJAR</h1>
+        <input type="text" id="ic-input" class="neu-input text-center" placeholder="MASUKKAN NO. IC">
+        <button onclick="handleLogin()" id="btn-login" class="btn-neu !text-blue-600">MASUK</button>
     </div>
 
-    <div id="dashboard-student" class="hidden main-card !max-w-xl">
-        <div class="flex flex-col items-center">
-            <div class="relative group mb-6">
-                <div class="w-40 h-40 border-4 border-black shadow-[8px_8px_0px_#000] overflow-hidden bg-white">
-                    <img id="std-img" src="" class="w-full h-full object-cover">
-                </div>
-                <button onclick="document.getElementById('file-upload').click()" class="absolute -bottom-2 -right-2 bg-yellow-400 border-2 border-black p-3 hover:scale-110 transition">
-                    <i class="fas fa-camera"></i>
-                </button>
+    <div id="main-dashboard" class="glass-neu hidden">
+        <div class="text-center mb-6">
+            <div class="profile-circle">
+                <img id="user-img" src="" class="w-full h-full object-cover">
             </div>
-            
-            <h2 id="std-nama" class="text-3xl font-black uppercase leading-tight mb-1 text-center">NAMA</h2>
-            <p id="std-kelas" class="font-bold text-indigo-600 mb-6 uppercase tracking-widest"></p>
-            
-            <input type="file" id="file-upload" accept="image/*" class="hidden" onchange="uploadImage()">
-            <div id="upload-status" class="text-xs font-black uppercase mb-4"></div>
-
-            <button onclick="location.reload()" class="w-full border-4 border-black py-2 font-black uppercase hover:bg-black hover:text-white transition">Keluar</button>
+            <button onclick="document.getElementById('file-up').click()" class="text-[10px] font-black underline mb-4">TUKAR GAMBAR</button>
+            <h2 id="user-nama" class="text-xl font-black uppercase"></h2>
+            <p id="user-kelas" class="text-blue-500 font-bold text-xs"></p>
         </div>
+
+        <div class="max-h-[50vh] overflow-y-auto pr-2">
+            <label class="text-[10px] font-black ml-2">JAWATAN</label><input type="text" id="in-jawatan" class="neu-input">
+            <label class="text-[10px] font-black ml-2">KUMPULAN</label><input type="text" id="in-kumpulan" class="neu-input">
+            <label class="text-[10px] font-black ml-2">NO KUMPULAN</label><input type="text" id="in-nokump" class="neu-input">
+            <label class="text-[10px] font-black ml-2">ALAHAN</label><input type="text" id="in-alahan" class="neu-input">
+            <label class="text-[10px] font-black ml-2">UBAT</label><input type="text" id="in-ubat" class="neu-input">
+            <label class="text-[10px] font-black ml-2">TEL KECEMASAN</label><input type="text" id="in-tel" class="neu-input">
+        </div>
+
+        <input type="file" id="file-up" class="hidden" accept="image/*">
+        <button onclick="handleUpdate()" id="btn-save" class="btn-neu !text-green-600 mt-5">SIMPAN DATA</button>
+        <button onclick="location.reload()" class="w-full mt-4 text-[10px] font-black text-gray-400">KELUAR</button>
     </div>
 
     <script>
-        // PENTING: GANTIKAN DENGAN URL APPS SCRIPT ANDA
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvdSxkpgSD8z9rLd6E5i1tN7FT1G--BJRsOUQLikBdwMa_s-sPDBumEx7UE08H1ernxw/exec"; 
+        // GANTIKAN DENGAN URL EXEC ANDA
+        const API_URL = "https://script.google.com/macros/s/AKfycbyaXLnJtB8CCICRaSxYnA3OtQcZpgSdlZxBSQl9TGitnS2P2iaWwvT2IU_D749K2aT8/exec";
+        let sessionData = null;
 
-        function setTab(mode) {
-            const isStd = mode === 'student';
-            document.getElementById('form-student').classList.toggle('hidden', !isStd);
-            document.getElementById('form-staff').classList.toggle('hidden', isStd);
-            document.getElementById('tab-student').className = isStd ? "flex-1 pb-2 text-sm uppercase tab-active" : "flex-1 pb-2 text-sm uppercase text-gray-400";
-            document.getElementById('tab-staff').className = !isStd ? "flex-1 pb-2 text-sm uppercase tab-active" : "flex-1 pb-2 text-sm uppercase text-gray-400";
+        async function handleLogin() {
+            const ic = document.getElementById('ic-input').value;
+            const btn = document.getElementById('btn-login');
+            btn.innerText = "MEMPROSES...";
+            
+            try {
+                const r = await fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'login_student', no_kp: ic}) });
+                const d = await r.json();
+                if(d.result === 'success') {
+                    sessionData = d.data;
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('main-dashboard').classList.remove('hidden');
+                    loadFields();
+                } else { alert(d.message); }
+            } catch(e) { alert("Ralat API. Pastikan Deployment Anyone."); }
+            btn.innerText = "MASUK";
         }
 
-        let currentNoKp = "";
+        function loadFields() {
+            document.getElementById('user-nama').innerText = sessionData.nama;
+            document.getElementById('user-kelas').innerText = sessionData.kelas;
+            document.getElementById('user-img').src = sessionData.url_gambar || "https://via.placeholder.com/150";
+            document.getElementById('in-jawatan').value = sessionData.jawatan || "";
+            document.getElementById('in-kumpulan').value = sessionData.kumpulan || "";
+            document.getElementById('in-nokump').value = sessionData.no_kumpulan || "";
+            document.getElementById('in-alahan').value = sessionData.alahan || "";
+            document.getElementById('in-ubat').value = sessionData.ubat || "";
+            document.getElementById('in-tel').value = sessionData.tel_kecemasan || "";
+        }
 
-        async function loginStudent() {
-            const kp = document.getElementById('kp-student').value;
-            const btn = document.getElementById('btn-std');
-            if(!kp) return alert("Sila isi No. KP");
+        async function handleUpdate() {
+            const btn = document.getElementById('btn-save');
+            btn.innerText = "SEDANG MENYIMPAN...";
+            
+            const payload = {
+                action: 'update_student_all',
+                no_kp: sessionData.no_kp,
+                jawatan: document.getElementById('in-jawatan').value,
+                kumpulan: document.getElementById('in-kumpulan').value,
+                no_kumpulan: document.getElementById('in-nokump').value,
+                alahan: document.getElementById('in-alahan').value,
+                ubat: document.getElementById('in-ubat').value,
+                tel_kecemasan: document.getElementById('in-tel').value,
+                image_base64: null
+            };
 
-            btn.innerHTML = '<span class="loader"></span>';
-            btn.disabled = true;
+            const file = document.getElementById('file-up').files[0];
+            if(file) {
+                const reader = new FileReader();
+                const b64 = await new Promise(res => {
+                    reader.onload = () => res(reader.result);
+                    reader.readAsDataURL(file);
+                });
+                payload.image_base64 = b64;
+            }
 
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: "login_student", no_kp: kp })
-                });
-                const res = await response.json();
-                
-                if(res.result === "success") {
-                    currentNoKp = res.data.no_kp;
-                    document.getElementById('login-container').classList.add('hidden');
-                    document.getElementById('dashboard-student').classList.remove('hidden');
-                    document.getElementById('std-nama').innerText = res.data.nama;
-                    document.getElementById('std-kelas').innerText = res.data.kelas;
-                    document.getElementById('std-img').src = res.data.url_gambar || "https://via.placeholder.com/400?text=TIADA+GAMBAR";
-                } else {
-                    alert(res.message);
-                }
-            } catch (e) {
-                alert("Ralat sambungan API.");
-            } finally {
-                btn.innerHTML = 'Masuk Portal <i class="fas fa-bolt ml-2"></i>';
-                btn.disabled = false;
-            }
-        }
-
-        function uploadImage() {
-            const file = document.getElementById('file-upload').files[0];
-            const status = document.getElementById('upload-status');
-            if(!file) return;
-
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                document.getElementById('std-img').src = e.target.result;
-                status.innerHTML = "<span class='text-blue-600'>Memuat naik...</span>";
-                
-                try {
-                    const response = await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({ 
-                            action: "update_student_info", 
-                            no_kp: currentNoKp, 
-                            image_base64: e.target.result 
-                        })
-                    });
-                    const res = await response.json();
-                    status.innerHTML = res.result === "success" ? "<span class='text-green-600'>Berjaya!</span>" : "<span class='text-red-600'>Gagal</span>";
-                } catch (err) {
-                    status.innerHTML = "Ralat!";
-                }
-            };
-            reader.readAsDataURL(file);
+                const r = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const d = await r.json();
+                if(d.result === 'success') {
+                    alert("Berjaya Disimpan!");
+                    if(d.new_url) document.getElementById('user-img').src = d.new_url;
+                } else { alert(d.message); }
+            } catch(e) { alert("Gagal Simpan."); }
+            btn.innerText = "SIMPAN DATA";
         }
     </script>
 </body>
